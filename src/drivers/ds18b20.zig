@@ -18,7 +18,7 @@ pub const Resolution = enum(u2) {
     bits12,
 
     fn conversionMs(self: Resolution) u32 {
-        return @as(u32, 94) << @intFromEnum(self);
+        return @as(u32, 94) << @backingInt(self);
     }
 };
 
@@ -34,7 +34,7 @@ pub const Ds18b20 = struct {
         hal.gpio.output(pin.port, pin.num);
 
         const self: Ds18b20 = .{ .pin = pin, .resolution = resolution };
-        const cfg: u8 = (@as(u8, @intFromEnum(resolution)) << 5) | CONFIG_RESERVED_BITS;
+        const cfg: u8 = (@as(u8, @backingInt(resolution)) << 5) | CONFIG_RESERVED_BITS;
 
         try self.command(CMD_WRITE_SCRATCHPAD);
         self.writeByte(0);
@@ -54,7 +54,7 @@ pub const Ds18b20 = struct {
         const sp = try self.readScratchpad();
         var raw: i16 = @bitCast(std.mem.readInt(u16, sp[0..2], .little));
 
-        const undefined_bits: u4 = 3 - @as(u4, @intFromEnum(self.resolution));
+        const undefined_bits: u4 = 3 - @as(u4, @backingInt(self.resolution));
         raw &= ~((@as(i16, 1) << undefined_bits) - 1);
 
         return @as(f32, @floatFromInt(raw)) / 16.0;

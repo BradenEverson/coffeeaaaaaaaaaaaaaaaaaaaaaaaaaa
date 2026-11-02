@@ -44,18 +44,15 @@ pub fn delayMs(ms: u32) void {
     }
 }
 
-/// Raw DWT cycle count, for timing relative to a fixed point with `waitSinceUs`
 pub fn cycleCount() u32 {
     return DWT_CYCCNT.*;
 }
 
-/// Busy-waits until `us` microseconds have passed since `start` (from `cycleCount`)
 pub fn waitSinceUs(start: u32, us: u32) void {
     const target = us * cycles_per_us;
     while (DWT_CYCCNT.* -% start < target) {}
 }
 
-/// Busy-waits on the DWT cycle counter, safe to call with interrupts disabled
 pub fn delayUs(us: u32) void {
     const start = DWT_CYCCNT.*;
     const cycles = us * cycles_per_us;

@@ -25,7 +25,7 @@ pub const MAX: u16 = 1000;
 
 pub fn init(timer_clk_hz: u32, freq_hz: u32) void {
     gpio.enable(.a);
-    gpio.alternate(.a, 5, 1); // AF1 = TIM2_CH1
+    gpio.alternate(.a, 5, 1);
 
     rcc.apb1enr.* |= APB1ENR_TIM2EN;
 
@@ -35,7 +35,7 @@ pub fn init(timer_clk_hz: u32, freq_hz: u32) void {
     ccr1.* = 0;
     ccmr1.* = (ccmr1.* & ~@as(u32, 0xFF)) | CCMR1_OC1M_PWM1 | CCMR1_OC1PE;
     ccer.* |= CCER_CC1E;
-    // Latch PSC/ARR/CCR1 before starting
+
     egr.* = EGR_UG;
     cr1.* = CR1_ARPE | CR1_CEN;
 }
