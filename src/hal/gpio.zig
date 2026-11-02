@@ -38,6 +38,10 @@ pub fn output(port: Port, pin: u4) void {
     setMode(port, pin, .output);
 }
 
+pub fn analog(port: Port, pin: u4) void {
+    setMode(port, pin, .analog);
+}
+
 pub fn alternate(port: Port, pin: u4, af: u4) void {
     const afr = reg(port, if (pin < 8) afrl else afrh);
     const shift: u5 = @as(u5, pin & 7) * 4;

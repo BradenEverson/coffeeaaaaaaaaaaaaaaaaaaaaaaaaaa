@@ -4,6 +4,8 @@ pub const gpio = @import("hal/gpio.zig");
 pub const uart = @import("hal/uart.zig");
 pub const i2c = @import("hal/i2c.zig");
 pub const timer = @import("hal/timer.zig");
+pub const dac = @import("hal/dac.zig");
+pub const pwm = @import("hal/pwm.zig");
 
 fn copyForward(dest: [*]volatile u8, src: [*]const u8, n: usize) void {
     var i: usize = 0;
